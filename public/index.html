@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="AirportsApp">
+<head>
+	<title>Airport list</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container" ng-controller="AirportsAppCtrl">
+		<h1>Airport List</h1>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Name</th>
+					<th>City</th>
+					<th>Latitude</th>
+					<th>Longitude</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input class="form-control" ng-model="airport.code"/></td>
+					<td><input class="form-control" ng-model="airport.name"/></td>
+					<td><input class="form-control" ng-model="airport.city"/></td>
+					<td><input class="form-control" ng-model="airport.latitude"/></td>
+					<td><input class="form-control" ng-model="airport.longitude"/></td>
+					<td><button class="btn btn-primary" ng-click="addAirport()">Add</button></td>
+				</tr>
+				<tr ng-repeat="airport in airportList">
+					<td>{{airport.code}}</td>
+					<td>{{airport.name}}</td>
+					<td>{{airport.city}}</td>
+					<td>{{airport.latitude}}</td>
+					<td>{{airport.longitude}}</td>
+					<td><button class="btn btn-danger" ng-click="deleteAirport(airport.code)">Delete</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script src="controllers.js"></script>
+</body>
+</html>
