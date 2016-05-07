@@ -1,5 +1,5 @@
 {
-  "name": "SLA-driven API",
+  "name": "SLAdriven API",
   "version": "1.0.0",
   "description": "SLA-driven API using Governify.io tools and MEAN stack",
   "main": "server.js",
