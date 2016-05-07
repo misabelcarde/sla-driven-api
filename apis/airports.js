@@ -1,7 +1,7 @@
 function AirportsApi(db){
 	this.db = db;
 	this.rootPath = "/airports";
-	this.codePath = "/airport/:code";
+	this.codePath = "/airports/:code";
 };
 
 AirportsApi.prototype.get = function(req, res){

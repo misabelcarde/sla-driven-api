@@ -1,0 +1,24 @@
+{
+  "name": "SLA-driven API",
+  "version": "1.0.0",
+  "description": "SLA-driven API using Governify.io tools and MEAN stack",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "nedb": "^1.8.0",
+    "governify": "^0.0.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misabelcarde/sla-driven-api.git"
+  },
+  "keywords": [],
+  "author": "MIsabelCarde",
+  "license": "MIT",
+  "homepage": "https://github.com/misabelcarde/sla-driven-api#readme"
+}
