@@ -62,11 +62,25 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 	};
 
 	function refreshAirports (){
-		refresh(airportsPath(), $scope.airportsList);
+		$http.get(airportsPath()).then( function (res){
+			console.log("Refresh: Data received successfully " + airportsPath());
+			$scope.airportsList = res.data;
+		}, function (res){
+			$scope.governifyConfigured = false;
+			$scope.governifyError = res.data.message + " (" + res.statusText + ")";
+			console.log($scope.governifyError);
+		});
 	};
 
 	function refreshFlights (){
-		refresh(flightsPath(), $scope.flightsList);
+		$http.get(flightsPath()).then( function (res){
+			console.log("Refresh: Data received successfully " + flightsPath());
+			$scope.flightsList = res.data;
+		}, function (res){
+			$scope.governifyConfigured = false;
+			$scope.governifyError = res.data.message + " (" + res.statusText + ")";
+			console.log($scope.governifyError);
+		});
 	};		
 
 	function airportsPath(properties){
@@ -75,17 +89,6 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 
 	function flightsPath(properties){
 		return pathWithApikey(flightsPathStr, properties);
-	};
-
-	function refresh(path, varToUpdate) {
-		$http.get(path).then( function (res){
-			console.log("Refresh: Data received successfully " + path);
-			varToUpdate = res.data;
-		}, function (res){
-			$scope.governifyConfigured = false;
-			$scope.governifyError = res.data.message + " (" + res.statusText + ")";
-			console.log($scope.governifyError);
-		});
 	};
 
 	function pathWithApikey(mainPath, properties){
