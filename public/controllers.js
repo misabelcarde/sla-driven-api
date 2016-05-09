@@ -3,6 +3,7 @@ var myApp = angular.module("AirportsApp",[]);
 myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 	$scope.showGovernifyConfig = false;
 	$scope.governifyConfigured = false;
+	$scope.governifyError = null;
 
 	var airportsPathStr = "/api/airports";
 	var flightsPathStr = "/api/flights";
@@ -44,6 +45,7 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 	$scope.configGovernify = function(){
 		$scope.governifyConfigured = true; 
 		$scope.showGovernifyConfig = !$scope.showGovernifyConfig;
+		$scope.governifyError = null;
 		if (typeof(Storage) !== "undefined") {
 		    localStorage.setItem("governifyKey", $scope.governifyApikey);
 		}
@@ -60,25 +62,11 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 	};
 
 	function refreshAirports (){
-		$http.get(airportsPath()).then( function (res){
-			console.log("Refresh: Data received successfully " + airportsPath());
-			$scope.airportsList = res.data;
-		}, function (res){
-			if(res.status == 402 || res.status == 429){ //Payment required or too many requests
-				$scope.governifyConfigured = false;
-			}
-		});
+		refresh(airportsPath(), $scope.airportsList);
 	};
 
 	function refreshFlights (){
-		$http.get(flightsPath()).then( function (res){
-			console.log("Refresh: Data received successfully " + flightsPath());
-			$scope.flightsList = res.data;
-		}, function (res){
-			if(res.status == 402 || res.status == 429){ //Payment required or too many requests
-				$scope.governifyConfigured = false;
-			}
-		});
+		refresh(flightsPath(), $scope.flightsList);
 	};		
 
 	function airportsPath(properties){
@@ -87,6 +75,17 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 
 	function flightsPath(properties){
 		return pathWithApikey(flightsPathStr, properties);
+	};
+
+	function refresh(path, varToUpdate) {
+		$http.get(path).then( function (res){
+			console.log("Refresh: Data received successfully " + path);
+			varToUpdate = res.data;
+		}, function (res){
+			$scope.governifyConfigured = false;
+			$scope.governifyError = res.data.message + " (" + res.statusText + ")";
+			console.log($scope.governifyError);
+		});
 	};
 
 	function pathWithApikey(mainPath, properties){

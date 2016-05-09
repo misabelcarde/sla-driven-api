@@ -54,12 +54,14 @@
 	    		<iframe src="https://ghbtns.com/github-btn.html?user=espejor&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="220px" height="30px"></iframe></p>
 			</div>
     		<div id="airports-list" class="tab-pane fade">
-    			<h3>AIRPORTS LIST</h3>
-    			<div class="alert alert-danger" role="alert" ng-hide="governifyConfigured">
+    			<h3 ng-show="governifyConfigured">AIRPORTS LIST</h3>
+    			<div class="alert alert-danger governify-config-panel" role="alert" ng-hide="governifyConfigured">
   					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  					<span class="sr-only">Error:</span>You must configure your SLA. Check your API key or improve your plan <a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
+  					<span class="sr-only">Error:</span>You must set up your SLA. Check your API key or improve your plan
+  					<a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
+  					<p>Detail: {{governifyError}}.</p>
 				</div>
-		    	<table class="table">
+		    	<table class="table" ng-show="governifyConfigured">
 					<thead>
 						<tr>
 							<th>Code</th>
@@ -92,12 +94,14 @@
 				</table>
     		</div>
     		<div id="flights-list" class="tab-pane fade">
-    			<h3>FLIGHTS LIST</h3>
-    			<div class="alert alert-danger" role="alert" ng-hide="governifyConfigured">
+    			<h3 ng-show="governifyConfigured" >FLIGHTS LIST</h3>
+    			<div class="alert alert-danger governify-config-panel" role="alert" ng-hide="governifyConfigured">
   					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  					<span class="sr-only">Error:</span>You must configure your SLA. Check your API key or improve your plan <a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
+  					<span class="sr-only">Error:</span>You must set up your SLA. Check your API key or improve your plan 
+  					<a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
+  					<p>Detail: {{governifyError}}.</p>
 				</div>
-    			<table class="table">
+    			<table class="table" ng-show="governifyConfigured">
 					<thead>
 						<tr>
 							<th>Number</th>
