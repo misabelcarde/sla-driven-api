@@ -1,44 +1,131 @@
 <!DOCTYPE html>
 <html ng-app="AirportsApp">
 <head>
-	<title>Airport list</title>
+	<title>SLA-driven API (Group 3)</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="container" ng-controller="AirportsAppCtrl">
-		<h1>Airport List</h1>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Code</th>
-					<th>Name</th>
-					<th>City</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><input class="form-control" ng-model="airport.code"/></td>
-					<td><input class="form-control" ng-model="airport.name"/></td>
-					<td><input class="form-control" ng-model="airport.city"/></td>
-					<td><input class="form-control" ng-model="airport.latitude"/></td>
-					<td><input class="form-control" ng-model="airport.longitude"/></td>
-					<td><button class="btn btn-primary" ng-click="addAirport()">Add</button></td>
-				</tr>
-				<tr ng-repeat="airport in airportList">
-					<td>{{airport.code}}</td>
-					<td>{{airport.name}}</td>
-					<td>{{airport.city}}</td>
-					<td>{{airport.latitude}}</td>
-					<td>{{airport.longitude}}</td>
-					<td><button class="btn btn-danger" ng-click="deleteAirport(airport.code)">Delete</button></td>
-				</tr>
-			</tbody>
-		</table>
+		<h1>SLA-driven API (Group 3) 
+			<span class="label float-right">
+				<button type="button" class="btn btn-default btn-lg" ng-click="showGovernifyConfig = !showGovernifyConfig">
+					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Governify config 
+					<span ng-show="governifyConfigured" class="governify-config-apikey">({{governifyApikey}})</span>
+					<span ng-show="!governifyConfigured" class="governify-config-apikey">(Not configured)</span>
+				</button>
+			</span>
+		</h1>
+
+		<div class="panel panel-default governify-config-panel" ng-show="showGovernifyConfig">
+			<div class="panel-heading">
+				<h3 class="panel-title">Governify API key</h3>
+			</div>
+			<div class="panel-body">
+				<form name="governify-form" ng-submit="configGovernify();">
+				    <div class="input-group">
+				    	<input type="text" class="form-control" ng-model="governifyApikey" required placeholder="API Key">
+				    	<span class="input-group-btn">
+				    		<input type="submit" class="btn btn-default" value="Submit"/>
+				    	</span>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<ul class="nav nav-tabs">
+	    	<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+	    	<li><a data-toggle="tab" href="#airports-list">Airports List</a></li>
+	    	<li><a data-toggle="tab" href="#flights-list">Flights List</a></li>
+	  	</ul>
+
+		<div class="tab-content">
+			<div id="home" class="tab-pane fade in active">
+				<h3>SLA-driven API</h3>
+	    		<h4>This is a demonstration of an SLA-driven API using Governify.io tools and MEAN stack.</h4>
+	    		<p>You can access to the code in <a target="_blank" href="https://github.com/misabelcarde/sla-driven-api">GitHub.</a></p>
+	    		<p><iframe src="https://ghbtns.com/github-btn.html?user=misabelcarde&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="220px" height="30px"></iframe>
+	    		<iframe src="https://ghbtns.com/github-btn.html?user=espejor&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="220px" height="30px"></iframe></p>
+			</div>
+    		<div id="airports-list" class="tab-pane fade">
+    			<h3>AIRPORTS LIST</h3>
+    			<div class="alert alert-danger" role="alert" ng-hide="governifyConfigured">
+  					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  					<span class="sr-only">Error:</span>You must configure your SLA. Check your API key or improve your plan <a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
+				</div>
+		    	<table class="table">
+					<thead>
+						<tr>
+							<th>Code</th>
+							<th>Name</th>
+							<th>City</th>
+							<th>Latitude</th>
+							<th>Longitude</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<form ng-submit="addAirport()">
+								<td><input class="form-control" ng-model="airport.code" required/></td>
+								<td><input class="form-control" ng-model="airport.name"/></td>
+								<td><input class="form-control" ng-model="airport.city"/></td>
+								<td><input class="form-control" ng-model="airport.latitude"/></td>
+								<td><input class="form-control" ng-model="airport.longitude"/></td>
+								<td><input type="submit" class="btn btn-primary" ng-disabled="!governifyConfigured" value="Add"/></td>
+							</form>
+						</tr>
+						<tr ng-repeat="airport in airportsList">
+							<td>{{airport.code}}</td>
+							<td>{{airport.name}}</td>
+							<td>{{airport.city}}</td>
+							<td>{{airport.latitude}}</td>
+							<td>{{airport.longitude}}</td>
+							<td><button class="btn btn-danger" ng-click="deleteAirport(airport.code)" ng-disabled="!governifyConfigured">Delete</button></td>
+						</tr>
+					</tbody>
+				</table>
+    		</div>
+    		<div id="flights-list" class="tab-pane fade">
+    			<h3>FLIGHTS LIST</h3>
+    			<div class="alert alert-danger" role="alert" ng-hide="governifyConfigured">
+  					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  					<span class="sr-only">Error:</span>You must configure your SLA. Check your API key or improve your plan <a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
+				</div>
+    			<table class="table">
+					<thead>
+						<tr>
+							<th>Number</th>
+							<th>Origin</th>
+							<th>Destination</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<form ng-submit="addFlight()">
+								<td><input class="form-control" ng-model="flight.number" required/></td>
+								<td><input class="form-control" ng-model="flight.origin" required/></td>
+								<td><input class="form-control" ng-model="flight.destination" required/></td>
+								<td><input type="submit" class="btn btn-primary" ng-disabled="!governifyConfigured" value="Add"/></td>
+							</form>
+						</tr>
+						<tr ng-repeat="flight in flightsList">
+							<td>{{flight.number}}</td>
+							<td>{{flight.origin}}</td>
+							<td>{{flight.destination}}</td>
+							<td><button class="btn btn-danger" ng-click="deleteFlight(airport.number)" ng-disabled="!governifyConfigured">Delete</button></td>
+						</tr>
+					</tbody>
+				</table>
+    		</div>		
+  		</div>
+
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>

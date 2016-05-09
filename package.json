@@ -9,6 +9,9 @@
     "nedb": "^1.8.0",
     "governify": "^0.0.10"
   },
+  "engines": {
+    "node": "4.4.3"
+  },
   "devDependencies": {},
   "scripts": {
     "start": "node server.js"

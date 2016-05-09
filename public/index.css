@@ -1,0 +1,11 @@
+.float-right{
+	float: right;
+}
+
+.governify-config-panel{
+	margin-top: 2em;
+}
+
+.governify-config-apikey{
+	font-size: 80%;
+}
