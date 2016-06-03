@@ -1,4 +1,4 @@
-//Required modules
+//Required modules http://datastore.governify.io/api/v6.1/awsg3/agreements
 var express = require('express'),
 	path = require('path'),
 	fs = require('fs'),
@@ -24,7 +24,7 @@ var dbFlights = new DataStore({
 
 //Init
 var app = express();
-governify.control(app,{ namespace: "awsg3", defaultPath: "/api"});
+//governify.control(app,{ namespace: "awsg3", defaultPath: "/api"});
 var airportsApi = new AirportsApi(dbAirports);
 var flightsApi = new FlightsApi(dbFlights);
 var port = (process.env.PORT || 10000);
@@ -37,12 +37,14 @@ app.use(bodyParser.json());
 app.get(airportsApi.rootPath, function(req, res){ airportsApi.get(req, res); });
 app.get(airportsApi.codePath, function(req, res){ airportsApi.getByCode(req, res); });
 app.post(airportsApi.rootPath, function(req, res){ airportsApi.post(req, res); });
+app.put(airportsApi.codePath, function(req, res){ airportsApi.putByCode(req, res); });
 app.delete(airportsApi.codePath, function(req, res){ airportsApi.deleteByCode(req, res); });
 
 //Methods flights API
 app.get(flightsApi.rootPath, function(req, res){ flightsApi.get(req, res); });
 app.get(flightsApi.numberPath, function(req, res){ flightsApi.getByNumber(req, res); });
 app.post(flightsApi.rootPath, function(req, res){ flightsApi.post(req, res); });
+app.put(flightsApi.numberPath, function(req, res){ flightsApi.putByNumber(req, res); });
 app.delete(flightsApi.numberPath, function(req, res){ flightsApi.deleteByNumber(req, res); });
 
 //Run app

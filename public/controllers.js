@@ -27,6 +27,19 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 		refreshAirports();
 	};
 
+	$scope.selectAirport = function(airport){
+		$scope.selectedAirport = angular.copy(airport);
+	};
+
+	$scope.editAirport = function(airport){
+		console.log("Editing airport... " + airport.code + " " + airportsPath("/" + airport.code));
+		$http.put(airportsPath("/" + airport.code), airport).success(function(){
+			console.log("PUT done");
+			$scope.selectedAirport = null;
+			refreshAirports();
+		});
+	}
+
 	$scope.addFlight = function(){
 		console.log("Inserting flight... " + flightsPath());
 		$http.post(flightsPath(), $scope.flight).success(function(){
@@ -41,6 +54,19 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 		$http.delete(flightsPath("/" + number));
 		refreshFlights();
 	};
+
+	$scope.selectFlight = function(flight){
+		$scope.selectedFlight = angular.copy(flight);
+	};
+
+	$scope.editFlight = function(flight){
+		console.log("Editing flight... " + flight.number + " " + flightsPath("/" + flight.number));
+		$http.put(flightsPath("/" + flight.number), flight).success(function(){
+			console.log("PUT done");
+			$scope.selectedFlight = null;
+			refreshFlights();
+		});
+	}
 
 	$scope.configGovernify = function(){
 		$scope.governifyConfigured = true; 

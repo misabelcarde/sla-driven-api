@@ -30,11 +30,21 @@ AirportsApi.prototype.post = function(req, res){
 	res.sendStatus(200);
 };
 
+AirportsApi.prototype.putByCode = function(req, res){
+	var code = req.params.code;
+	console.log("PUT " + this.codePath + " -> " + code);
+	this.db.update({ code : code}, req.body, function(err, airport){
+		if(airport  == 1)
+			res.sendStatus(200);
+		else
+			res.sendStatus(404);
+	});
+};
+
 AirportsApi.prototype.deleteByCode = function(req, res){
 	var code = req.params.code;
 	console.log("DELETE " + this.codePath + " -> " + code);
 	this.db.remove({ code : code},{}, function(err, airport){
-		console.log("Airport removed: " + airport);
 		if(airport  == 1)
 			res.sendStatus(200);
 		else

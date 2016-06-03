@@ -30,6 +30,17 @@ FlightsApi.prototype.post = function(req, res){
 	res.sendStatus(200);
 };
 
+FlightsApi.prototype.putByNumber = function(req, res){
+	var number = req.params.number;
+	console.log("PUT " + this.numberPath + " -> " + number);
+	this.db.update({ number : number}, req.body, function(err, flight){
+		if(flight  == 1)
+			res.sendStatus(200);
+		else
+			res.sendStatus(404);
+	});
+};
+
 FlightsApi.prototype.deleteByNumber = function(req, res){
 	var number = req.params.number;
 	console.log("DELETE " + this.numberPath + " -> " + number);

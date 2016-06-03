@@ -2,10 +2,31 @@
 	float: right;
 }
 
+.display-inline{
+	display: inline-block;!important;
+}
+
+.action-button{
+	margin-left: 0.5em!important;
+}
+
+.td-actions{
+	width: 11em;
+}
+
 .governify-config-panel{
 	margin-top: 2em;
 }
 
 .governify-config-apikey{
 	font-size: 80%;
+}
+
+.modal-input.form-control{
+	width: 80%!important;
+	display: inline-block!important;
+}
+
+.modal-label{
+	width: 19%;
 }

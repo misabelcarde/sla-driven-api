@@ -79,7 +79,7 @@
 								<td><input class="form-control" ng-model="airport.city"/></td>
 								<td><input class="form-control" ng-model="airport.latitude"/></td>
 								<td><input class="form-control" ng-model="airport.longitude"/></td>
-								<td><input type="submit" class="btn btn-primary" ng-disabled="!governifyConfigured" value="Add"/></td>
+								<td><input type="submit" class="btn btn-primary action-button" ng-disabled="!governifyConfigured" value="Add"/></td>
 							</form>
 						</tr>
 						<tr ng-repeat="airport in airportsList">
@@ -88,10 +88,39 @@
 							<td>{{airport.city}}</td>
 							<td>{{airport.latitude}}</td>
 							<td>{{airport.longitude}}</td>
-							<td><button class="btn btn-danger" ng-click="deleteAirport(airport.code)" ng-disabled="!governifyConfigured">Delete</button></td>
+							<td class="td-actions">
+								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-airport-modal" ng-click="selectAirport(airport)" ng-disabled="!governifyConfigured">Edit</button>
+								<button type="button" class="btn btn-danger action-button" ng-click="deleteAirport(airport.code)" ng-disabled="!governifyConfigured">Delete</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
+				<div id="edit-airport-modal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+					    	<div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						        <h4 class="modal-title">Edit airport</h4>
+					        </div>
+					        <div class="modal-body">
+					        	<label for="editable-airport-code" class="modal-label">Code</label>
+					        	<input id="editable-airport-code" class="modal-input form-control" ng-model="selectedAirport.code" readonly/>
+					        	<label for="editable-airport-name" class="modal-label">Name</label>
+								<input id="editable-airport-name" class="modal-input form-control" ng-model="selectedAirport.name"/>
+								<label for="editable-airport-city" class="modal-label">City</label>
+								<input id="editable-airport-city" class="modal-input form-control" ng-model="selectedAirport.city"/>
+								<label for="editable-airport-latitude" class="modal-label">Latitude</label>
+								<input id="editable-airport-latitude" class="modal-input form-control" ng-model="selectedAirport.latitude"/>
+								<label for="editable-airport-longitude" class="modal-label">Longitude</label>
+								<input id="editable-airport-longitude" class="modal-input form-control" ng-model="selectedAirport.longitude"/>
+					        </div>
+					        <div class="modal-footer">
+					        	<button type="button" class="btn btn-primary action-button" data-dismiss="modal" ng-click="editAirport(selectedAirport)">Edit</button>
+					        	<button type="button" class="btn btn-danger action-button" data-dismiss="modal">Cancel</button>
+					        </div>
+					    </div>
+					</div>
+				</div>
     		</div>
     		<div id="flights-list" class="tab-pane fade">
     			<h3 ng-show="governifyConfigured" >FLIGHTS LIST</h3>
@@ -116,17 +145,42 @@
 								<td><input class="form-control" ng-model="flight.number" required/></td>
 								<td><input class="form-control" ng-model="flight.origin" required/></td>
 								<td><input class="form-control" ng-model="flight.destination" required/></td>
-								<td><input type="submit" class="btn btn-primary" ng-disabled="!governifyConfigured" value="Add"/></td>
+								<td><input type="submit" class="btn btn-primary action-button" ng-disabled="!governifyConfigured" value="Add"/></td>
 							</form>
 						</tr>
 						<tr ng-repeat="flight in flightsList">
 							<td>{{flight.number}}</td>
 							<td>{{flight.origin}}</td>
 							<td>{{flight.destination}}</td>
-							<td><button class="btn btn-danger" ng-click="deleteFlight(airport.number)" ng-disabled="!governifyConfigured">Delete</button></td>
+							<td class="td-actions">
+								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-flight-modal" ng-click="selectFlight(flight)" ng-disabled="!governifyConfigured">Edit</button>
+								<button type="button" class="btn btn-danger action-button" ng-click="deleteFlight(flight.number)" ng-disabled="!governifyConfigured">Delete</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
+				<div id="edit-flight-modal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+					    	<div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						        <h4 class="modal-title">Edit flight</h4>
+					        </div>
+					        <div class="modal-body">
+					        	<label for="editable-flight-number" class="modal-label">Number</label>
+					        	<input id="editable-flight-number" class="modal-input form-control" ng-model="selectedFlight.number" readonly/>
+					        	<label for="editable-flight-origin" class="modal-label">Origin</label>
+								<input id="editable-flight-origin" class="modal-input form-control" ng-model="selectedFlight.origin"/>
+								<label for="editable-flight-destination" class="modal-label">Destination</label>
+								<input id="editable-flight-destination" class="modal-input form-control" ng-model="selectedFlight.destination"/>
+					        </div>
+					        <div class="modal-footer">
+					        	<button type="button" class="btn btn-primary action-button" data-dismiss="modal" ng-click="editFlight(selectedFlight)">Edit</button>
+					        	<button type="button" class="btn btn-danger action-button" data-dismiss="modal">Cancel</button>
+					        </div>
+					    </div>
+					</div>
+				</div>
     		</div>		
   		</div>
 
