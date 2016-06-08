@@ -54,14 +54,15 @@
 	    		<iframe src="https://ghbtns.com/github-btn.html?user=espejor&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="220px" height="30px"></iframe></p>
 			</div>
     		<div id="airports-list" class="tab-pane fade">
-    			<h3 ng-show="governifyConfigured">AIRPORTS LIST</h3>
-    			<div class="alert alert-danger governify-config-panel" role="alert" ng-hide="governifyConfigured">
+    			<h3 ng-hide="!governifyConfigured || governifyErrorAirport!==null">AIRPORTS LIST</h3>
+    			<div class="alert alert-danger governify-config-panel" role="alert" ng-show="!governifyConfigured || governifyErrorAirport!==null">
   					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
   					<span class="sr-only">Error:</span>You must set up your SLA. Check your API key or improve your plan
-  					<a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
-  					<p>Detail: {{governifyError}}.</p>
+  					<!--<a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>-->
+  					<a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fespejor1%2Faws-g3-2016%2FPlans%2Fportal-config.json">here.</a>
+  					<p>Detail: {{governifyErrorAirport}}.</p>
 				</div>
-		    	<table class="table" ng-show="governifyConfigured">
+		    	<table class="table" ng-hide="!governifyConfigured || governifyErrorAirport!==null">
 					<thead>
 						<tr>
 							<th>Code</th>
@@ -79,7 +80,7 @@
 								<td><input class="form-control" ng-model="airport.city"/></td>
 								<td><input class="form-control" ng-model="airport.latitude"/></td>
 								<td><input class="form-control" ng-model="airport.longitude"/></td>
-								<td><input type="submit" class="btn btn-primary action-button" ng-disabled="!governifyConfigured" value="Add"/></td>
+								<td><input type="submit" class="btn btn-primary action-button" ng-disabled="!governifyConfigured || governifyErrorAirport!==null" value="Add"/></td>
 							</form>
 						</tr>
 						<tr ng-repeat="airport in airportsList">
@@ -89,8 +90,8 @@
 							<td>{{airport.latitude}}</td>
 							<td>{{airport.longitude}}</td>
 							<td class="td-actions">
-								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-airport-modal" ng-click="selectAirport(airport)" ng-disabled="!governifyConfigured">Edit</button>
-								<button type="button" class="btn btn-danger action-button" ng-click="deleteAirport(airport.code)" ng-disabled="!governifyConfigured">Delete</button>
+								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-airport-modal" ng-click="selectAirport(airport)" ng-disabled="!governifyConfigured || governifyErrorAirport!==null">Edit</button>
+								<button type="button" class="btn btn-danger action-button" ng-click="deleteAirport(airport.code)" ng-disabled="!governifyConfigured || governifyErrorAirport!==null">Delete</button>
 							</td>
 						</tr>
 					</tbody>
@@ -123,14 +124,14 @@
 				</div>
     		</div>
     		<div id="flights-list" class="tab-pane fade">
-    			<h3 ng-show="governifyConfigured" >FLIGHTS LIST</h3>
-    			<div class="alert alert-danger governify-config-panel" role="alert" ng-hide="governifyConfigured">
+    			<h3 ng-hide="!governifyConfigured || governifyErrorFlight!==null" >FLIGHTS LIST</h3>
+    			<div class="alert alert-danger governify-config-panel" role="alert" ng-show="!governifyConfigured || governifyErrorFlight!==null">
   					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
   					<span class="sr-only">Error:</span>You must set up your SLA. Check your API key or improve your plan 
-  					<a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fmisabelcardes%2Faws-2016%2FPlans%2Fportal-config.json">here.</a>
-  					<p>Detail: {{governifyError}}.</p>
+  					<a target="_blank" href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fespejor1%2Faws-g3-2016%2FPlans%2Fportal-config.json">here.</a>
+  					<p>Detail: {{governifyErrorFlight}}.</p>
 				</div>
-    			<table class="table" ng-show="governifyConfigured">
+    			<table class="table" ng-hide="!governifyConfigured || governifyErrorFlight!==null">
 					<thead>
 						<tr>
 							<th>Number</th>
@@ -145,7 +146,7 @@
 								<td><input class="form-control" ng-model="flight.number" required/></td>
 								<td><input class="form-control" ng-model="flight.origin" required/></td>
 								<td><input class="form-control" ng-model="flight.destination" required/></td>
-								<td><input type="submit" class="btn btn-primary action-button" ng-disabled="!governifyConfigured" value="Add"/></td>
+								<td><input type="submit" class="btn btn-primary action-button" ng-disabled="!governifyConfigured || governifyErrorFlight!==null" value="Add"/></td>
 							</form>
 						</tr>
 						<tr ng-repeat="flight in flightsList">
@@ -153,8 +154,8 @@
 							<td>{{flight.origin}}</td>
 							<td>{{flight.destination}}</td>
 							<td class="td-actions">
-								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-flight-modal" ng-click="selectFlight(flight)" ng-disabled="!governifyConfigured">Edit</button>
-								<button type="button" class="btn btn-danger action-button" ng-click="deleteFlight(flight.number)" ng-disabled="!governifyConfigured">Delete</button>
+								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-flight-modal" ng-click="selectFlight(flight)" ng-disabled="!governifyConfigured || governifyErrorFlight!==null">Edit</button>
+								<button type="button" class="btn btn-danger action-button" ng-click="deleteFlight(flight.number)" ng-disabled="!governifyConfigured || governifyErrorFlight!==null">Delete</button>
 							</td>
 						</tr>
 					</tbody>
