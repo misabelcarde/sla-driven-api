@@ -6,8 +6,9 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
+    "governify": "^0.1.0",
     "nedb": "^1.8.0",
-    "governify": "^0.0.10"
+    "sync-request": "^3.0.1"
   },
   "engines": {
     "node": "4.4.3"

@@ -2,11 +2,12 @@ function AirportsApi(db){
 	this.db = db;
 	this.rootPath = "/api/airports";
 	this.codePath = "/api/airports/:code";
+	this.maxResources = "MaxAirportResources";
 };
 
-AirportsApi.prototype.get = function(req, res){
+AirportsApi.prototype.get = function(req, res, max){
 	console.log("GET " + this.rootPath);
-	this.db.find({},function (err, airports){
+	this.db.find({}).limit(max).exec(function (err, airports){
 		res.json(airports);
 	});
 };

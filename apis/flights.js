@@ -2,11 +2,12 @@ function FlightsApi(db){
 	this.db = db;
 	this.rootPath = "/api/flights";
 	this.numberPath = "/api/flights/:number";
+	this.maxResources = "MaxFlightResources";
 };
 
-FlightsApi.prototype.get = function(req, res){
+FlightsApi.prototype.get = function(req, res, max){
 	console.log("GET " + this.rootPath);
-	this.db.find({},function (err, flights){
+	this.db.find({}).limit(max).exec(function (err, flights){
 		res.json(flights);
 	});
 };
