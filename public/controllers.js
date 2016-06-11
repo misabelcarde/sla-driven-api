@@ -5,6 +5,8 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 	$scope.governifyConfigured = false;
 	$scope.governifyErrorAirport = null;
 	$scope.governifyErrorFlight = null;
+	$scope.governifyResourceErrorAirport = null;
+	$scope.governifyResourceErrorFlight = null;
 
 	var airportsPathStr = "/api/airports";
 	var flightsPathStr = "/api/flights";
@@ -20,7 +22,9 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.airport = null;
 			refreshAirports();
 		},function(res){
-			console.log("add airport error");
+			if(res.status == 423){
+				$scope.governifyResourceErrorAirport = "The maximum number of airport resources is reached. You can't add more records (" + res.statusText + ")";
+			}
 			refreshAirports();
 		});
 	};
@@ -41,7 +45,6 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.selectedAirport = null;
 			refreshAirports();
 		}, function(res){
-			console.log("editAirport error");
 			refreshAirports();
 		});
 	}
@@ -53,7 +56,9 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.flight = null;
 			refreshFlights();
 		}, function(res){
-			console.log("addFlight error");
+			if(res.status == 423){
+				$scope.governifyResourceErrorAirport = "The maximum number of flight resources is reached. You can't add more records (" + res.statusText + ")";
+			}
 			refreshFlights();
 		});
 	};
@@ -74,7 +79,6 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.selectedFlight = null;
 			refreshFlights();
 		}, function(res){
-			console.log("editFlight error");
 			refreshFlights();
 		});
 	}
@@ -84,6 +88,8 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 		$scope.showGovernifyConfig = !$scope.showGovernifyConfig;
 		$scope.governifyErrorAirport = null;
 		$scope.governifyErrorFlight = null;
+		$scope.governifyResourceErrorAirport = null;
+		$scope.governifyResourceErrorFlight = null;
 		if (typeof(Storage) !== "undefined") {
 		    localStorage.setItem("governifyKey", $scope.governifyApikey);
 		}
@@ -104,10 +110,7 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 			console.log("Refresh: Data received successfully " + airportsPath());
 			$scope.airportsList = res.data;
 		}, function (res){
-			//$scope.governifyConfigured = false;
-			console.log("refreshAirports error");
 			$scope.governifyErrorAirport = res.data.message + " (" + res.statusText + ")";
-			console.log($scope.governifyErrorAirport);
 		});
 	};
 
@@ -116,10 +119,7 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 			console.log("Refresh: Data received successfully " + flightsPath());
 			$scope.flightsList = res.data;
 		}, function (res){
-			//$scope.governifyConfigured = false;
-			console.log("refreshFlights error");
 			$scope.governifyErrorFlight = res.data.message + " (" + res.statusText + ")";
-			console.log($scope.governifyErrorFlight);
 		});
 	};		
 

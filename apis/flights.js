@@ -5,9 +5,9 @@ function FlightsApi(db){
 	this.maxResources = "MaxFlightResources";
 };
 
-FlightsApi.prototype.get = function(req, res, max){
+FlightsApi.prototype.get = function(req, res){
 	console.log("GET " + this.rootPath);
-	this.db.find({}).limit(max).exec(function (err, flights){
+	this.db.find({}, function (err, flights){
 		res.json(flights);
 	});
 };
@@ -25,10 +25,16 @@ FlightsApi.prototype.getByNumber = function(req, res){
 	});
 };
 
-FlightsApi.prototype.post = function(req, res){
+FlightsApi.prototype.post = function(req, res, max){
 	console.log("POST " + this.rootPath);
-	this.db.insert(req.body);
-	res.sendStatus(200);
+	this.db.find({}, function (err, flights){
+		if(flights.length < max){
+			this.db.insert(req.body);
+			res.sendStatus(200);
+		}else{
+			res.sendStatus(423);
+		}
+	});
 };
 
 FlightsApi.prototype.putByNumber = function(req, res){

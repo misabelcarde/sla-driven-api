@@ -50,28 +50,27 @@ governify.control(app,{
 			calculate: function(actualValue, req, res, callback){
 				callback(parseInt(actualValue) + 1);
 			}
+		}, 
+		{
+			path: "/api/flights",
+			term: "FlightResourceTerm",
+			metric: "FlightResources",
+			calculate: function(actualValue, req, res, callback){
+				dbFlights.find({},function (err, flights){
+					callback(flights.length);
+				});
+			}
 		},
-
-		//Para controlar resources: post suma 1, delete resta 1, get y put devuelven lo que hay en la BD 
-		//(código de abajo, donde se hace una consulta a la BD con la limitación de recursos según el plan).
-		//
-		//Hay que mirar si el método maxResources debe devolver la limitación (p.ej. 5) o sumarle 1, por si
-		//en Governify empieza a contar en 0 o tiene un >= 5. 
 		{
 			path: "/api/airports",
-			//method: "GET, PUT",
 			term: "AirportResourceTerm",
 			metric: "AirportResources",
 			calculate: function(actualValue, req, res, callback){
-				//usar actualValue en vez de el método maxResources? sino siempre se va a dar un valor que no sobrepase el SLA
-				//(habría que inicializar el valor cuando se compra el plan y se hace config con la api key)
-				dbAirports.find({}).limit(maxResources(req.query.apikey, airportsApi.maxResources)).exec(function (err, airports){
+				dbAirports.find({},function (err, airports){
 					callback(airports.length);
 				});
 			}
 		},
-
-		
 		{
 			metric: "AVGResponseTime",
 			calculate: function(actualValue, req, res, callback){
@@ -86,16 +85,16 @@ app.use(express.static(__dirname+"/public"));
 app.use(bodyParser.json());
 
 //Methods airports API
-app.get(airportsApi.rootPath, function(req, res){ airportsApi.get(req, res, maxResources(req.query.apikey, airportsApi.maxResources)); });
+app.get(airportsApi.rootPath, function(req, res){ airportsApi.get(req, res); });
 app.get(airportsApi.codePath, function(req, res){ airportsApi.getByCode(req, res); });
-app.post(airportsApi.rootPath, function(req, res){ airportsApi.post(req, res); });
+app.post(airportsApi.rootPath, function(req, res){ airportsApi.post(req, res, maxResources(req.query.apikey, airportsApi.maxResources)); });
 app.put(airportsApi.codePath, function(req, res){ airportsApi.putByCode(req, res); });
 app.delete(airportsApi.codePath, function(req, res){ airportsApi.deleteByCode(req, res); });
 
 //Methods flights API
-app.get(flightsApi.rootPath, function(req, res){ flightsApi.get(req, res, maxResources(req.query.apikey, flightsApi.maxResources)); });
+app.get(flightsApi.rootPath, function(req, res){ flightsApi.get(req, res); });
 app.get(flightsApi.numberPath, function(req, res){ flightsApi.getByNumber(req, res); });
-app.post(flightsApi.rootPath, function(req, res){ flightsApi.post(req, res); });
+app.post(flightsApi.rootPath, function(req, res){ flightsApi.post(req, res, maxResources(req.query.apikey, flightsApi.maxResources)); });
 app.put(flightsApi.numberPath, function(req, res){ flightsApi.putByNumber(req, res); });
 app.delete(flightsApi.numberPath, function(req, res){ flightsApi.deleteByNumber(req, res); });
 

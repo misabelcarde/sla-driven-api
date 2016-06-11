@@ -5,9 +5,9 @@ function AirportsApi(db){
 	this.maxResources = "MaxAirportResources";
 };
 
-AirportsApi.prototype.get = function(req, res, max){
+AirportsApi.prototype.get = function(req, res){
 	console.log("GET " + this.rootPath);
-	this.db.find({}).limit(max).exec(function (err, airports){
+	this.db.find({}, function (err, airports){
 		res.json(airports);
 	});
 };
@@ -25,10 +25,17 @@ AirportsApi.prototype.getByCode = function(req, res){
 	});
 };
 
-AirportsApi.prototype.post = function(req, res){
+AirportsApi.prototype.post = function(req, res, max){
 	console.log("POST " + this.rootPath);
-	this.db.insert(req.body);
-	res.sendStatus(200);
+	this.db.find({}, function (err, airports){
+		if(airports.length < max){
+			this.db.insert(req.body);
+			res.sendStatus(200);
+		}else{
+			res.sendStatus(423);
+		}
+	});
+	
 };
 
 AirportsApi.prototype.putByCode = function(req, res){
