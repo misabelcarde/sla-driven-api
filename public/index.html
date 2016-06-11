@@ -92,7 +92,7 @@
 							<td>{{airport.longitude}}</td>
 							<td class="td-actions">
 								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-airport-modal" ng-click="selectAirport(airport)" ng-disabled="!governifyConfigured || governifyErrorAirport!==null">Edit</button>
-								<button type="button" class="btn btn-danger action-button" ng-click="deleteAirport(airport.code)" ng-disabled="!governifyConfigured || governifyErrorAirport!==null">Delete</button>
+								<button type="button" class="btn btn-danger action-button" ng-click="deleteAirport(airport.code)" ng-disabled="!governifyConfigured || (governifyErrorAirport!==null && governifyResourceErrorAirport!==null)">Delete</button>
 							</td>
 						</tr>
 					</tbody>

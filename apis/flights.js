@@ -27,9 +27,10 @@ FlightsApi.prototype.getByNumber = function(req, res){
 
 FlightsApi.prototype.post = function(req, res, max){
 	console.log("POST " + this.rootPath);
+	var currentDb = this.db;
 	this.db.find({}, function (err, flights){
 		if(flights.length < max){
-			this.db.insert(req.body);
+			currentDb.insert(req.body);
 			res.sendStatus(200);
 		}else{
 			res.sendStatus(423);

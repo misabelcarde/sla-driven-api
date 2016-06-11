@@ -37,7 +37,7 @@ governify.control(app,{
 	customMetrics:[
 		{
 			path: "/api/flights",
-			term: "FlighRequestTerm",
+			term: "FlightRequestTerm",
 			metric: "FlightRequests",
 			calculate: function(actualValue, req, res, callback){
 				callback(parseInt(actualValue) + 1);
