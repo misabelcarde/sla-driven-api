@@ -31,7 +31,11 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 
 	$scope.deleteAirport = function(code){
 		console.log("Deleting airport with " + code + " " + airportsPath("/" + code));
-		$http.delete(airportsPath("/" + code)).then(refreshAirports(), refreshAirports());
+		$http.delete(airportsPath("/" + code)).then(function(){
+			$scope.governifyResourceErrorAirport = null;
+			refreshAirports();
+		},
+			refreshAirports());
 	};
 
 	$scope.selectAirport = function(airport){
@@ -43,6 +47,7 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 		$http.put(airportsPath("/" + airport.code), airport).then(function(){
 			console.log("PUT done");
 			$scope.selectedAirport = null;
+			$scope.governifyResourceErrorAirport = null;
 			refreshAirports();
 		}, function(res){
 			refreshAirports();
@@ -65,7 +70,10 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 
 	$scope.deleteFlight = function(number){
 		console.log("Deleting flight with " + number + " " + flightsPath("/" + number));
-		$http.delete(flightsPath("/" + number)).then(refreshFlights(), refreshFlights());
+		$http.delete(flightsPath("/" + number)).then(function(){
+			$scope.governifyResourceErrorFlight = null;
+			refreshFlights();
+		}, refreshFlights());
 	};
 
 	$scope.selectFlight = function(flight){
@@ -77,6 +85,7 @@ myApp.controller('AirportsAppCtrl', ['$scope', '$http', function($scope, $http){
 		$http.put(flightsPath("/" + flight.number), flight).then(function(){
 			console.log("PUT done");
 			$scope.selectedFlight = null;
+			$scope.governifyResourceErrorFlight = null;
 			refreshFlights();
 		}, function(res){
 			refreshFlights();

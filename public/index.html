@@ -125,7 +125,7 @@
 				</div>
     		</div>
     		<div id="flights-list" class="tab-pane fade">
-    			<h3 ng-hide="!governifyConfigured || governifyErrorFlight!==null" >FLIGHTS LIST</h3>
+    			<h3 ng-hide="!governifyConfigured || (governifyErrorFlight!==null && governifyResourceErrorFlight!==null)" >FLIGHTS LIST</h3>
     			<div class="alert alert-danger governify-config-panel" role="alert" ng-show="!governifyConfigured || governifyErrorFlight!==null || governifyResourceErrorFlight!==null">
   					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
   					<span class="sr-only">Error:</span>You must set up your SLA. Check your API key or improve your plan 
@@ -133,7 +133,7 @@
   					<p ng-show="governifyErrorFlight!==null">Detail: {{governifyErrorFlight}}.</p>
   					<p ng-show="governifyResourceErrorFlight!==null">Detail: {{governifyResourceErrorFlight}}.</p>
 				</div>
-    			<table class="table" ng-hide="!governifyConfigured || governifyErrorFlight!==null">
+    			<table class="table" ng-hide="!governifyConfigured || (governifyErrorFlight!==null && governifyResourceErrorFlight!==null)">
 					<thead>
 						<tr>
 							<th>Number</th>
@@ -157,7 +157,7 @@
 							<td>{{flight.destination}}</td>
 							<td class="td-actions">
 								<button type="button" class="btn btn-primary action-button" data-toggle="modal" data-target="#edit-flight-modal" ng-click="selectFlight(flight)" ng-disabled="!governifyConfigured || governifyErrorFlight!==null">Edit</button>
-								<button type="button" class="btn btn-danger action-button" ng-click="deleteFlight(flight.number)" ng-disabled="!governifyConfigured || governifyErrorFlight!==null">Delete</button>
+								<button type="button" class="btn btn-danger action-button" ng-click="deleteFlight(flight.number)" ng-disabled="!governifyConfigured || (governifyErrorFlight!==null && governifyResourceErrorFlight!=null)">Delete</button>
 							</td>
 						</tr>
 					</tbody>
